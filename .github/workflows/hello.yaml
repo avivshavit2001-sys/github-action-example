@@ -1,16 +1,20 @@
-name: ci
+name: advanced-workflow
 
 on:
   push:
+    branches:
+      - master # או main, תלוי בשם הענף הראשי שלך
+  pull_request:
 
 jobs:
-  test:
+  pr_job:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "running tests"
+      - run: echo "This runs only on Pull Requests!"
 
-  build:
+  master_push_job:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: test
     steps:
-      - run: echo "building app"
+      - run: echo "This runs only when pushing to master!"
