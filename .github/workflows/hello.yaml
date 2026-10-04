@@ -1,17 +1,20 @@
-name: hello-actions
+name: advanced-workflow
 
 on:
   push:
     branches:
-      - dev
+      - master # או main, תלוי בשם הענף הראשי שלך
+  pull_request:
 
 jobs:
-  hello:
+  pr_job:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Print hello
-        run: echo "Hello GitHub Actions"
+      - run: echo "This runs only on Pull Requests!"
 
-      - name: Print commit sha
-        run: echo $GITHUB_SHA
+  master_push_job:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This runs only when pushing to master!"
